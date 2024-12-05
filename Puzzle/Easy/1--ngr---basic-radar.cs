@@ -2,36 +2,30 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-class Solution
+int N = int.Parse(Console.ReadLine());
+List<Information> list = new List<Information>();
+for (int i = 0; i < N; i++)
 {
-    static void Main(string[] args)
+    string[] inputs = Console.ReadLine().Split(' ');
+    string plate = inputs[0];
+    string radarname = inputs[1];
+    long timestamp = long.Parse(inputs[2]);
+
+    var existRecord = list.FirstOrDefault(x => x.Plate == plate);
+
+    if(existRecord == null)
     {
-        int N = int.Parse(Console.ReadLine());
-        List<Information> list = new List<Information>();
-        for (int i = 0; i < N; i++)
-        {
-            string[] inputs = Console.ReadLine().Split(' ');
-            string plate = inputs[0];
-            string radarname = inputs[1];
-            long timestamp = long.Parse(inputs[2]);
-
-            var existRecord = list.FirstOrDefault(x => x.Plate == plate);
-
-            if(existRecord == null)
-            {
-                Information inf = new Information(plate, radarname, timestamp);
-                list.Add(inf);
-            }
-            else            
-                existRecord.AddRegister(radarname, timestamp);
-        }
-
-        list = list.Where(x => x.CalcDiff() > 130).DistinctBy(x => x.Plate).OrderBy(x => x.Plate).ToList();
-
-        foreach(Information inf in list)
-            Console.WriteLine($"{inf.Plate} {inf.CalcDiff()}");
+        Information inf = new Information(plate, radarname, timestamp);
+        list.Add(inf);
     }
+    else            
+        existRecord.AddRegister(radarname, timestamp);
 }
+
+list = list.Where(x => x.CalcDiff() > 130).DistinctBy(x => x.Plate).OrderBy(x => x.Plate).ToList();
+
+foreach(Information inf in list)
+    Console.WriteLine($"{inf.Plate} {inf.CalcDiff()}");
 
 public class Information
 {
