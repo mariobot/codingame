@@ -1,38 +1,33 @@
 using System;
 using System.Text;
 
-class Solution
+int N = int.Parse(Console.ReadLine());
+for (int i = 0; i < N; i++)
 {
-    static void Main(string[] args)
-    {
-        int N = int.Parse(Console.ReadLine());
-        for (int i = 0; i < N; i++)
-        {
-            string line = Console.ReadLine();
-            Console.WriteLine(Calculation(line));
-        }
-    }
+    string line = Console.ReadLine();
+    Console.WriteLine(Calculation(line));
+}
+    
 
-    public static int Calculation(string line)
+public static int Calculation(string line)
+{
+    StringBuilder sb = new StringBuilder(line);
+    int count = 0;
+    bool allPoints = true;
+    while(allPoints)
     {
-        StringBuilder sb = new StringBuilder(line);
-        int count = 0;
-        bool allPoints = true;
-        while(allPoints)
+        int ind = sb.ToString().IndexOf('f');
+        if(ind >= 0)
         {
-            int ind = sb.ToString().IndexOf('f');
-            if(ind >= 0)
-            {
-                sb[ind] = '.';
-                if(ind < sb.Length-1)
-                    sb[ind+1] = '.';
-                if(ind < sb.Length-2)
-                    sb[ind+2] = '.';
-                count += 1;
-            }
-            else            
-                allPoints = false;
+            sb[ind] = '.';
+            if(ind < sb.Length-1)
+                sb[ind+1] = '.';
+            if(ind < sb.Length-2)
+                sb[ind+2] = '.';
+            count += 1;
         }
-        return count;
+        else            
+            allPoints = false;
     }
+    return count;
 }
