@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-
 string line1 = Console.ReadLine();
 string line2 = Console.ReadLine();
 string line3 = Console.ReadLine();
