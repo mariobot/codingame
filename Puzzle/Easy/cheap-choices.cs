@@ -2,42 +2,36 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-class Solution
+int c = int.Parse(Console.ReadLine());
+int p = int.Parse(Console.ReadLine());
+List<Article> list = new List<Article>();
+for (int i = 0; i < c; i++)
 {
-    static void Main(string[] args)
+    string[] item = Console.ReadLine().Split(" ");
+    Article article = new Article(item[0], item[1], Convert.ToInt32(item[2]));
+    AddArticle(list, article, Convert.ToInt32(item[2]));
+}
+for (int i = 0; i < p; i++)
+{
+    string[] order = Console.ReadLine().Split(" ");
+    var item = list.Where(x => x.Name == order[0] && x.Size == order[1] && x.Prices.Count() > 0).FirstOrDefault();
+    if(item != null)
     {
-        int c = int.Parse(Console.ReadLine());
-        int p = int.Parse(Console.ReadLine());
-        List<Article> list = new List<Article>();
-        for (int i = 0; i < c; i++)
-        {
-            string[] item = Console.ReadLine().Split(" ");
-            Article article = new Article(item[0], item[1], Convert.ToInt32(item[2]));
-            AddArticle(list, article, Convert.ToInt32(item[2]));
-        }
-        for (int i = 0; i < p; i++)
-        {
-            string[] order = Console.ReadLine().Split(" ");
-            var item = list.Where(x => x.Name == order[0] && x.Size == order[1] && x.Prices.Count() > 0).FirstOrDefault();
-            if(item != null)
-            {
-                var min = item.Prices.Min();
-                Console.WriteLine(min);
-                item.Prices.Remove(min);
-            }
-            else
-                Console.WriteLine("NONE");
-        }
+        var min = item.Prices.Min();
+        Console.WriteLine(min);
+        item.Prices.Remove(min);
     }
+    else
+        Console.WriteLine("NONE");
+}
     
-    public static void AddArticle(List<Article> list, Article article, int price)
-    {
-        var itemExist = list.Where(x => x.Name == article.Name && x.Size == article.Size).FirstOrDefault();
-        if(itemExist != null)        
-            itemExist.Prices.Add(price);
-        else
-            list.Add(article);
-    }
+public static void AddArticle(List<Article> list, Article article, int price)
+{
+    var itemExist = list.Where(x => x.Name == article.Name && x.Size == article.Size).FirstOrDefault();
+    if(itemExist != null)        
+        itemExist.Prices.Add(price);
+    else
+        list.Add(article);
 }
 
 public class Article
