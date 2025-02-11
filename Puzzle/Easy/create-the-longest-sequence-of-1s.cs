@@ -1,49 +1,44 @@
 using System;
 using System.Text;
 
-class Solution
+
+string input = Console.ReadLine();
+int maxCount = 0;
+
+for(int i = 0; i < input.Length; i++)
 {
-    static void Main(string[] args)
+    if(input[i] == '1')
+        continue;
+    else
     {
-        string input = Console.ReadLine();
-        int maxCount = 0;
+        StringBuilder newInput = new StringBuilder(input);
+        newInput[i] = '1'; 
 
-        for(int i = 0; i < input.Length; i++)
+        int count = FindMaxConsecutiveOnes(newInput.ToString());
+        if(count > maxCount)
+            maxCount = count;
+    }
+}
+
+Console.WriteLine(maxCount);
+
+public static int FindMaxConsecutiveOnes(string nums)
+{
+    int maxCount = 0;
+    int currentCount = 0;
+
+    foreach (char num in nums)
+    {
+        if (num == '1')
         {
-            if(input[i] == '1')
-                continue;
-            else
-            {
-                StringBuilder newInput = new StringBuilder(input);
-                newInput[i] = '1'; 
-
-                int count = FindMaxConsecutiveOnes(newInput.ToString());
-                if(count > maxCount)
-                    maxCount = count;
-            }
+            currentCount++;
+            maxCount = Math.Max(maxCount, currentCount);
         }
-
-        Console.WriteLine(maxCount);
+        else
+        {
+            currentCount = 0;
+        }
     }
 
-    public static int FindMaxConsecutiveOnes(string nums)
-    {
-        int maxCount = 0;
-        int currentCount = 0;
-
-        foreach (char num in nums)
-        {
-            if (num == '1')
-            {
-                currentCount++;
-                maxCount = Math.Max(maxCount, currentCount);
-            }
-            else
-            {
-                currentCount = 0;
-            }
-        }
-
-        return maxCount;
-    }
+    return maxCount;
 }
