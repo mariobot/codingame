@@ -2,19 +2,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-class Solution
-{
-    static void Main(string[] args)
-    {
-        string word = Console.ReadLine();
-        string[] words = word.Split(" ");
-        Dic MyDictionary = new Dic(words);
-        List<string> final = new List<string>();
-        foreach(string w in words)        
-            final.Add(MyDictionary.ListToUse.Where(x => x[0] == w[0]).FirstOrDefault());
-        Console.WriteLine(string.Join(" ", final));
-    }    
-}
+string word = Console.ReadLine();
+string[] words = word.Split(" ");
+Dic MyDictionary = new Dic(words);
+List<string> final = new List<string>();
+foreach(string w in words)        
+    final.Add(MyDictionary.ListToUse.Where(x => x[0] == w[0]).FirstOrDefault());
+Console.WriteLine(string.Join(" ", final));
 
 public class Dic
 {
