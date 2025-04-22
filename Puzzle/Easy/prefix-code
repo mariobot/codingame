@@ -2,69 +2,64 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-class Solution
+int n = int.Parse(Console.ReadLine());
+Dictionary<string, int> dic = new Dictionary<string, int>();
+
+for (int i = 0; i < n; i++)
 {
-    static void Main(string[] args)
+    string[] inputs = Console.ReadLine().Split(' ');
+    string cod = inputs[0];
+    int value = int.Parse(inputs[1]);
+    dic.Add(cod, value);
+}
+
+string code = Console.ReadLine();        
+List<int> maxWidth = dic.Select(x => x.Key.Length).Distinct().OrderBy(x => x).ToList();
+
+List<int> result = new List<int>();
+int searchNewInKey = 0;
+bool found = false;
+
+for(int i = 0; i < code.Length; i++)
+{
+    if(searchNewInKey == i)
     {
-        int n = int.Parse(Console.ReadLine());
-        Dictionary<string, int> dic = new Dictionary<string, int>();
-        
-        for (int i = 0; i < n; i++)
-        {
-            string[] inputs = Console.ReadLine().Split(' ');
-            string cod = inputs[0];
-            int value = int.Parse(inputs[1]);
-            dic.Add(cod, value);
-        }
-
-        string code = Console.ReadLine();        
-        List<int> maxWidth = dic.Select(x => x.Key.Length).Distinct().OrderBy(x => x).ToList();
-        
-        List<int> result = new List<int>();
-        int searchNewInKey = 0;
-        bool found = false;
-
-        for(int i = 0; i < code.Length; i++)
-        {
-            if(searchNewInKey == i)
-            {
-                int widthFound = Check(i, maxWidth, dic, result, code, out found);
-
-                if(found)
-                    searchNewInKey = i + widthFound;
-                else
-                    Console.WriteLine($"DECODE FAIL AT INDEX {i}");
-            }
-        }
+        int widthFound = Check(i, maxWidth, dic, result, code, out found);
 
         if(found)
-            foreach(int ch in result)            
-                Console.Write(Convert.ToChar(ch));
+            searchNewInKey = i + widthFound;
+        else
+            Console.WriteLine($"DECODE FAIL AT INDEX {i}");
     }
+}
 
-    public static int Check(int index, List<int> maxWidths, Dictionary<string, int> dic, List<int> result, string code, out bool exist)
+if(found)
+    foreach(int ch in result)            
+        Console.Write(Convert.ToChar(ch));
+
+
+public static int Check(int index, List<int> maxWidths, Dictionary<string, int> dic, List<int> result, string code, out bool exist)
+{
+    foreach(int maxWidth in maxWidths)
     {
-        foreach(int maxWidth in maxWidths)
+        string cod = string.Empty;
+        try
         {
-            string cod = string.Empty;
-            try
-            {
-                cod = code.Substring(index, maxWidth);
-            }
-            catch (System.Exception)
-            {
-                exist = false;
-                return -1;
-            }
-            
-            if(dic.ContainsKey(cod))
-            {
-                result.Add(dic[cod]);
-                exist = true;
-                return maxWidth;
-            }
+            cod = code.Substring(index, maxWidth);
         }
-        exist = false;
-        return -1;
+        catch (System.Exception)
+        {
+            exist = false;
+            return -1;
+        }
+        
+        if(dic.ContainsKey(cod))
+        {
+            result.Add(dic[cod]);
+            exist = true;
+            return maxWidth;
+        }
     }
+    exist = false;
+    return -1;
 }
